@@ -4,7 +4,7 @@ body {
   font-family: $primary-font;
   font-size: 14px;
   line-height: 1.5;
-  font-weight: normal;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -67,7 +67,7 @@ h6 {
 // skeletor styles
 .vue-skeletor {
   border-radius: $primary-border-radius;
-  background-color: #333;
+  background-color: #333 !important;
 
   &:not(.vue-skeletor--shimmerless) {
     &:after {
@@ -76,7 +76,13 @@ h6 {
         rgba(255, 255, 255, 0),
         rgba(255, 255, 255, 0.1),
         rgba(37, 22, 22, 0)
-      );
+      ) !important;
     }
   }
+}
+
+// vue grid styles
+.vue-grid-item.vue-grid-placeholder {
+  background: $primary-background-color;
+  opacity: 1;
 }

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Skeletor } from 'vue-skeletor';
-import 'vue-skeletor/dist/vue-skeletor.css';
 import AppButton from '@/components/ui/AppButton.vue';
 import AppIcon from '@/components/ui/AppIcon.vue';
+import InventoryGrid from '@/components/InventoryGrid.vue';
 
 const isFooterOpen = ref(true);
 const closeFooter = () => {
@@ -36,7 +36,9 @@ const closeFooter = () => {
         <Skeletor class="profile__note" width="40%" height="10" />
       </div>
     </aside>
-    <main class="profile__main"></main>
+    <main class="profile__main">
+      <InventoryGrid />
+    </main>
     <footer class="profile__footer" v-if="isFooterOpen">
       <Skeletor height="36px" />
       <app-button
