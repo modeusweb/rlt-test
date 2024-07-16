@@ -1,0 +1,68 @@
+body {
+  background: $background-color;
+  color: $primary-color;
+  font-family: $primary-font;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  transition: 0.3s;
+  color: $primary-color;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
+  -webkit-user-drag: none;
+}
+
+p {
+  margin: 0 0 16px 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  transition: 0.3s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h1,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 3rem 0;
+  letter-spacing: normal;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.container {
+  max-width: 1500px;
+  padding: 0 32px;
+  margin: 0 auto;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  overflow-x: hidden;
+  justify-content: center;
+}
+
+.main-area {
+  padding: 32px 0;
+}
