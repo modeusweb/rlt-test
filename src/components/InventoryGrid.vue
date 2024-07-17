@@ -24,7 +24,7 @@
         :h="1"
         :i="item.id"
       >
-        <InventoryItem :item="item" />
+        <InventoryItem :item="item" @click="selectItem(item)" />
       </grid-item>
     </grid-layout>
     <div class="inventory__grid">
@@ -34,6 +34,11 @@
         class="inventory__grid-cell"
       />
     </div>
+    <ItemDetails
+      :class="{ opened: isDetailsOpened }"
+      :item="selectedItem"
+      @close="closeItemDetails"
+    />
   </div>
 </template>
 
@@ -42,9 +47,12 @@ import { ref, watch } from 'vue';
 import { useInventoryStore } from '@/stores/inventory';
 import { GridLayout, GridItem } from 'vue-grid-layout-v3';
 import InventoryItem from '@/components/InventoryItem.vue';
+import ItemDetails from '@/components/ItemDetails.vue';
+import type { InventoryItem as InventoryItemType } from '@/interfaces/InventoryItem';
 
 const inventoryStore = useInventoryStore();
 const items = inventoryStore.items;
+const selectedItem = ref<InventoryItemType | null>(null);
 
 const layout = ref(
   items.map((item) => ({
@@ -82,6 +90,25 @@ watch(
     }));
   },
 );
+
+watch(
+  () => inventoryStore.selectedItem,
+  (newSelectedItem) => {
+    selectedItem.value = newSelectedItem;
+  },
+);
+
+const isDetailsOpened = ref(false);
+
+const selectItem = (item: InventoryItemType) => {
+  inventoryStore.selectedItem = item;
+  isDetailsOpened.value = true;
+};
+
+const closeItemDetails = () => {
+  inventoryStore.selectedItem = null;
+  isDetailsOpened.value = false;
+};
 </script>
 
 <style scoped lang="scss">

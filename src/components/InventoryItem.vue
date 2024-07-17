@@ -8,12 +8,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useInventoryStore } from '@/stores/inventory';
+import type { InventoryItem } from '@/interfaces/InventoryItem';
 
-const props = defineProps<{ item: InventoryItem }>();
+defineProps<{ item: InventoryItem }>();
 const inventoryStore = useInventoryStore();
-const loading = ref(true);
 
 const selectItem = () => {
   // Логика для выбора предмета и отображения деталей

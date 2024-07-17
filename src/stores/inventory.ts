@@ -1,14 +1,5 @@
 import { defineStore } from 'pinia';
-
-interface InventoryItem {
-  id: string;
-  name: string;
-  description: string;
-  quantity: number;
-  image: string;
-  x: number;
-  y: number;
-}
+import type { InventoryItem } from '@/interfaces/InventoryItem';
 
 const defaultItems: InventoryItem[] = [
   {
@@ -47,6 +38,7 @@ export const useInventoryStore = defineStore('inventory', {
       items: storedItems
         ? (JSON.parse(storedItems) as InventoryItem[])
         : defaultItems,
+      selectedItem: null as InventoryItem | null,
     };
   },
   actions: {
