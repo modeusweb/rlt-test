@@ -23,8 +23,9 @@
         :w="1"
         :h="1"
         :i="item.id"
+        @move="onMove"
       >
-        <InventoryItem :item="item" @click="selectItem(item)" />
+        <InventoryItem :item="item" @click="handleItemClick(item)" />
       </grid-item>
     </grid-layout>
     <div class="inventory__grid">
@@ -99,16 +100,29 @@ watch(
 );
 
 const isDetailsOpened = ref(false);
+const isDragging = ref(false);
 
-const selectItem = (item: InventoryItemType) => {
-  inventoryStore.selectedItem = item;
-  isDetailsOpened.value = true;
+const handleItemClick = (item: InventoryItemType) => {
+  if (!isDragging.value) {
+    inventoryStore.selectedItem = item;
+    isDetailsOpened.value = true;
+  }
 };
 
 const closeItemDetails = () => {
   inventoryStore.selectedItem = null;
   isDetailsOpened.value = false;
 };
+
+const onMove = () => {
+  isDragging.value = true;
+};
+
+watch(items, () => {
+  setTimeout(() => {
+    isDragging.value = false;
+  });
+});
 </script>
 
 <style scoped lang="scss">

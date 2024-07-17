@@ -40,7 +40,7 @@ const closeFooter = () => {
       <InventoryGrid />
     </main>
     <footer class="profile__footer" v-if="isFooterOpen">
-      <Skeletor height="36px" />
+      <Skeletor height="36" />
       <app-button
         class="profile__footer-close"
         styling="icon"

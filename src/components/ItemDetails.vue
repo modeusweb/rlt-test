@@ -1,5 +1,5 @@
 <template>
-  <div class="item-details" :class="{ opened: isOpen }">
+  <div class="item-details">
     <template v-if="item">
       <div class="item-details__image">
         <img :src="item.image" :alt="item.name" />
@@ -33,14 +33,15 @@
         class="delete-confirm"
         @submit.prevent="confirmDelete"
       >
-        <input
+        <app-input
+          id="delete-quantity"
           type="number"
           v-model.number="deleteQuantity"
           min="1"
           :max="item?.quantity"
           name="delete-quantity"
           placeholder="Введите количество"
-          required
+          :required="true"
         />
         <div class="delete-confirm__buttons">
           <app-button
@@ -65,42 +66,36 @@ import { useInventoryStore } from '@/stores/inventory';
 import type { InventoryItem } from '@/interfaces/InventoryItem';
 import AppIcon from '@/components/ui/AppIcon.vue';
 import AppButton from '@/components/ui/AppButton.vue';
+import AppInput from '@/components/ui/AppInput.vue';
 
 const props = defineProps<{ item: InventoryItem | null }>();
 const emits = defineEmits(['close']);
 
 const inventoryStore = useInventoryStore();
 
-const deleteQuantity = ref<number>('');
+const deleteQuantity = ref<string>('');
 const showDeleteConfirm = ref<boolean>(false);
-const isOpen = ref<boolean>(false);
 
 const closeDetails = () => {
   emits('close');
 };
 
-if (props.item) {
-  isOpen.value = true;
-}
-
 const toggleDeleteConfirm = () => {
   showDeleteConfirm.value = !showDeleteConfirm.value;
 };
 
-const confirmDelete = () => {
-  if (props.item) {
-    inventoryStore.removeItem(props.item.id, deleteQuantity.value);
-    toggleDeleteConfirm();
-    emits('close');
-  }
+const resetInput = () => {
+  deleteQuantity.value = '';
 };
 
-watch(
-  () => inventoryStore.selectedItem,
-  () => {
-    deleteQuantity.value = '';
-  },
-);
+const confirmDelete = () => {
+  if (props.item) {
+    inventoryStore.removeItem(props.item.id, +deleteQuantity.value);
+    toggleDeleteConfirm();
+    emits('close');
+    resetInput();
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -117,13 +112,14 @@ watch(
   color: white;
   z-index: 99;
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   background: rgba(38, 38, 38, 0.5);
   text-align: center;
   transition: transform 0.4s ease;
-  transform: translateX(300%);
+  transform: translate3d(300%, 0, 0);
 
   &.opened {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   &__image {
