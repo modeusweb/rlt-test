@@ -61,6 +61,11 @@ const closeFooter = () => {
   max-width: 785px;
   margin: 0 auto;
 
+  @include respond-to(medium) {
+    display: flex;
+    flex-direction: column;
+  }
+
   &__main,
   &__aside,
   &__footer {
