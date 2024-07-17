@@ -104,7 +104,7 @@ const confirmDelete = () => {
   flex-direction: column;
   width: 250px;
   position: absolute;
-  right: 0;
+  right: -100%;
   top: 0;
   bottom: 0;
   padding: 24px 14px 17px;
@@ -115,11 +115,15 @@ const confirmDelete = () => {
   -webkit-backdrop-filter: blur(16px);
   background: rgba(38, 38, 38, 0.5);
   text-align: center;
-  transition: transform 0.4s ease;
-  transform: translate3d(300%, 0, 0);
+  transition: right 0.4s ease;
+
+  // hack for safari
+  @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+    background: $secondary-background-color;
+  }
 
   &.opened {
-    transform: translate3d(0, 0, 0);
+    right: 0;
   }
 
   &__image {
