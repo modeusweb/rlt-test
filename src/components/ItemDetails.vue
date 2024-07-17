@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, watch } from 'vue';
+import { ref } from 'vue';
 import { Skeletor } from 'vue-skeletor';
 import { useInventoryStore } from '@/stores/inventory';
 import type { InventoryItem } from '@/interfaces/InventoryItem';
