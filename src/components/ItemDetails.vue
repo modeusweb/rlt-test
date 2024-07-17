@@ -1,5 +1,5 @@
 <template>
-  <div class="item-details">
+  <div class="item-details" :class="{ opened: isOpen }">
     <template v-if="item">
       <div class="item-details__image">
         <img :src="item.image" :alt="item.name" />
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="item-details__btn">
-        <app-button @click="removeItem">Удалить предмет</app-button>
+        <app-button @click="toggleDeleteConfirm">Удалить предмет</app-button>
       </div>
     </template>
     <app-button
@@ -25,11 +25,41 @@
     >
       <app-icon name="close" />
     </app-button>
+
+    <!-- Всплывающий блок подтверждения удаления -->
+    <transition name="slide-up">
+      <form
+        v-if="showDeleteConfirm"
+        class="delete-confirm"
+        @submit.prevent="confirmDelete"
+      >
+        <input
+          type="number"
+          v-model.number="deleteQuantity"
+          min="1"
+          :max="item?.quantity"
+          name="delete-quantity"
+          placeholder="Введите количество"
+          required
+        />
+        <div class="delete-confirm__buttons">
+          <app-button
+            @click="toggleDeleteConfirm"
+            styling="secondary"
+            size="small"
+            type="button"
+          >
+            Отмена
+          </app-button>
+          <app-button size="small" type="submit">Подтвердить</app-button>
+        </div>
+      </form>
+    </transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref, watch } from 'vue';
 import { Skeletor } from 'vue-skeletor';
 import { useInventoryStore } from '@/stores/inventory';
 import type { InventoryItem } from '@/interfaces/InventoryItem';
@@ -41,14 +71,36 @@ const emits = defineEmits(['close']);
 
 const inventoryStore = useInventoryStore();
 
-const removeItem = () => {
-  inventoryStore.removeItem(props.item.id, props.item.quantity);
-  emits('close');
-};
+const deleteQuantity = ref<number>('');
+const showDeleteConfirm = ref<boolean>(false);
+const isOpen = ref<boolean>(false);
 
 const closeDetails = () => {
   emits('close');
 };
+
+if (props.item) {
+  isOpen.value = true;
+}
+
+const toggleDeleteConfirm = () => {
+  showDeleteConfirm.value = !showDeleteConfirm.value;
+};
+
+const confirmDelete = () => {
+  if (props.item) {
+    inventoryStore.removeItem(props.item.id, deleteQuantity.value);
+    toggleDeleteConfirm();
+    emits('close');
+  }
+};
+
+watch(
+  () => inventoryStore.selectedItem,
+  () => {
+    deleteQuantity.value = '';
+  },
+);
 </script>
 
 <style scoped lang="scss">
@@ -62,13 +114,12 @@ const closeDetails = () => {
   bottom: 0;
   padding: 24px 14px 17px;
   border-left: 1px solid $primary-border-color;
-  overflow: auto;
   color: white;
   z-index: 99;
   backdrop-filter: blur(16px);
   background: rgba(38, 38, 38, 0.5);
   text-align: center;
-  transition: 0.4s ease;
+  transition: transform 0.4s ease;
   transform: translateX(300%);
 
   &.opened {
@@ -108,9 +159,12 @@ const closeDetails = () => {
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    max-height: 114px;
+    overflow: auto;
   }
 
   &__param {
+    flex: 0 0 10px;
     border-radius: $small-border-radius;
   }
 
@@ -142,5 +196,50 @@ const closeDetails = () => {
       height: 12px;
     }
   }
+}
+
+.delete-confirm {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 21px;
+  border-top: 1px solid $primary-border-color;
+  background: $secondary-background-color;
+  color: white;
+  z-index: 100;
+  text-align: center;
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+
+    .btn {
+      flex: 1;
+    }
+  }
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(100%);
 }
 </style>

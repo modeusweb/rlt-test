@@ -113,6 +113,8 @@ const closeFooter = () => {
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    max-height: 114px;
+    overflow: auto;
   }
 
   &__param {

@@ -1,5 +1,5 @@
 <template>
-  <div class="inventory-item" @click="selectItem">
+  <div class="inventory-item">
     <div class="inventory-item__image">
       <img :src="item.image" :alt="item.name" />
     </div>
@@ -8,16 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useInventoryStore } from '@/stores/inventory';
 import type { InventoryItem } from '@/interfaces/InventoryItem';
 
 defineProps<{ item: InventoryItem }>();
-const inventoryStore = useInventoryStore();
-
-const selectItem = () => {
-  // Логика для выбора предмета и отображения деталей
-};
 </script>
 
 <style scoped lang="scss">

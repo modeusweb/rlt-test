@@ -29,6 +29,15 @@ const defaultItems: InventoryItem[] = [
     x: 2,
     y: 0,
   },
+  {
+    id: '4',
+    name: 'Item 4',
+    description: 'Description 4',
+    quantity: 999,
+    image: 'item-1.svg',
+    x: 0,
+    y: 2,
+  },
 ];
 
 export const useInventoryStore = defineStore('inventory', {

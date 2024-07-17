@@ -46,12 +46,17 @@ defineEmits(['click']);
   border-radius: $secondary-border-radius;
   transition: 0.3s;
 
+  &:hover {
+    box-shadow: 0 0 15px rgba(250, 114, 114, 0.7);
+  }
+
   &--primary {
     background-color: $secondary-color;
+  }
 
-    &:hover {
-      background-color: darken($secondary-color, 10%);
-    }
+  &--secondary {
+    background-color: $primary-color;
+    color: $dark-text-color;
   }
 
   &--small {
@@ -63,6 +68,7 @@ defineEmits(['click']);
     padding: 0;
     background-color: transparent;
     border-radius: 0;
+    box-shadow: none !important;
   }
 }
 </style>
