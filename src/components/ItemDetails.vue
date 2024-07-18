@@ -210,17 +210,6 @@ const confirmDelete = () => {
   z-index: 100;
   text-align: center;
 
-  p {
-    margin-bottom: 10px;
-  }
-
-  input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
   &__buttons {
     display: flex;
     gap: 10px;
@@ -241,5 +230,18 @@ const confirmDelete = () => {
 .slide-up-enter-from,
 .slide-up-leave-to {
   transform: translateY(100%);
+}
+
+// light theme styling
+html[data-theme='light'] {
+  .item-details {
+    background: rgba(255, 255, 255, 0.1);
+    &__close {
+      filter: invert(1);
+    }
+  }
+  .delete-confirm {
+    background: #fff;
+  }
 }
 </style>

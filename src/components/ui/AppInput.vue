@@ -71,4 +71,13 @@ const inputValue = ref(props.modelValue);
     }
   }
 }
+
+// light theme styling
+html[data-theme='light'] {
+  .input {
+    color: $dark-text-color;
+    background: $primary-color;
+    border-color: $primary-border-color;
+  }
+}
 </style>
